@@ -1,0 +1,186 @@
+{
+  "students": [],
+  "teachers": [],
+  "courses": [
+    {
+      "id": "cmnam957z0007qata92siw0en",
+      "name": "Anglais Débutant",
+      "code": "ANG-DEB",
+      "description": "Cours d'anglais pour débutants - Niveau A1",
+      "duration": 60,
+      "price": 350,
+      "languageId": "cmnam957h0000qatautn1fa3m",
+      "createdAt": "2026-03-28T17:40:43.823Z",
+      "updatedAt": "2026-03-28T17:40:43.823Z"
+    },
+    {
+      "id": "cmnam95810009qatax1olp3kh",
+      "name": "Anglais Intermédiaire",
+      "code": "ANG-INT",
+      "description": "Cours d'anglais intermédiaire - Niveau B1",
+      "duration": 80,
+      "price": 400,
+      "languageId": "cmnam957h0000qatautn1fa3m",
+      "createdAt": "2026-03-28T17:40:43.825Z",
+      "updatedAt": "2026-03-28T17:40:43.825Z"
+    },
+    {
+      "id": "cmnam9583000bqatae6v4qq0u",
+      "name": "Espagnol Débutant",
+      "code": "ESP-DEB",
+      "description": "Cours d'espagnol pour débutants",
+      "duration": 60,
+      "price": 320,
+      "languageId": "cmnam957k0001qatarn5c4j0m",
+      "createdAt": "2026-03-28T17:40:43.827Z",
+      "updatedAt": "2026-03-28T17:40:43.827Z"
+    },
+    {
+      "id": "cmnam9585000dqatak40g95lz",
+      "name": "Allemand Intermédiaire",
+      "code": "ALL-INT",
+      "description": "Cours d'allemand niveau intermédiaire",
+      "duration": 70,
+      "price": 380,
+      "languageId": "cmnam957l0002qatanyjt9fdv",
+      "createdAt": "2026-03-28T17:40:43.829Z",
+      "updatedAt": "2026-03-28T17:40:43.829Z"
+    }
+  ],
+  "groups": [],
+  "payments": [],
+  "languages": [
+    {
+      "id": "cmnam957h0000qatautn1fa3m",
+      "name": "Anglais",
+      "code": "EN",
+      "icon": "🇬🇧",
+      "createdAt": "2026-03-28T17:40:43.805Z",
+      "updatedAt": "2026-03-28T17:40:43.805Z"
+    },
+    {
+      "id": "cmnam957k0001qatarn5c4j0m",
+      "name": "Espagnol",
+      "code": "ES",
+      "icon": "🇪🇸",
+      "createdAt": "2026-03-28T17:40:43.809Z",
+      "updatedAt": "2026-03-28T17:40:43.809Z"
+    },
+    {
+      "id": "cmnam957l0002qatanyjt9fdv",
+      "name": "Allemand",
+      "code": "DE",
+      "icon": "🇩🇪",
+      "createdAt": "2026-03-28T17:40:43.810Z",
+      "updatedAt": "2026-03-28T17:40:43.810Z"
+    },
+    {
+      "id": "cmnam957n0003qatazmvh3yu7",
+      "name": "Français",
+      "code": "FR",
+      "icon": "🇫🇷",
+      "createdAt": "2026-03-28T17:40:43.811Z",
+      "updatedAt": "2026-03-28T17:40:43.811Z"
+    },
+    {
+      "id": "cmnam957o0004qatamqs0mfu6",
+      "name": "Italien",
+      "code": "IT",
+      "icon": "🇮🇹",
+      "createdAt": "2026-03-28T17:40:43.812Z",
+      "updatedAt": "2026-03-28T17:40:43.812Z"
+    },
+    {
+      "id": "cmnam957p0005qatal98ns3zy",
+      "name": "Chinois",
+      "code": "ZH",
+      "icon": "🇨🇳",
+      "createdAt": "2026-03-28T17:40:43.813Z",
+      "updatedAt": "2026-03-28T17:40:43.813Z"
+    }
+  ],
+  "levels": [
+    {
+      "id": "level-beginner",
+      "name": "Débutant",
+      "description": "Niveau A1-A2",
+      "order": 1,
+      "createdAt": "2026-03-28T17:40:43.814Z",
+      "updatedAt": "2026-03-28T17:40:43.814Z"
+    },
+    {
+      "id": "level-intermediate",
+      "name": "Intermédiaire",
+      "description": "Niveau B1-B2",
+      "order": 2,
+      "createdAt": "2026-03-28T17:40:43.815Z",
+      "updatedAt": "2026-03-28T17:40:43.815Z"
+    },
+    {
+      "id": "level-advanced",
+      "name": "Avancé",
+      "description": "Niveau C1-C2",
+      "order": 3,
+      "createdAt": "2026-03-28T17:40:43.816Z",
+      "updatedAt": "2026-03-28T17:40:43.816Z"
+    }
+  ],
+  "rooms": [
+    {
+      "id": "room-a1",
+      "name": "Salle A1",
+      "capacity": 15,
+      "building": "Bâtiment Principal",
+      "floor": null,
+      "createdAt": "2026-03-28T17:40:43.817Z",
+      "updatedAt": "2026-03-28T17:40:43.817Z"
+    },
+    {
+      "id": "room-a2",
+      "name": "Salle A2",
+      "capacity": 20,
+      "building": "Bâtiment Principal",
+      "floor": null,
+      "createdAt": "2026-03-28T17:40:43.818Z",
+      "updatedAt": "2026-03-28T17:40:43.818Z"
+    },
+    {
+      "id": "room-b1",
+      "name": "Salle B1",
+      "capacity": 12,
+      "building": "Bâtiment Annexe",
+      "floor": null,
+      "createdAt": "2026-03-28T17:40:43.820Z",
+      "updatedAt": "2026-03-28T17:40:43.820Z"
+    },
+    {
+      "id": "room-lab",
+      "name": "Labo Multimédia",
+      "capacity": 25,
+      "building": "Bâtiment Principal",
+      "floor": null,
+      "createdAt": "2026-03-28T17:40:43.821Z",
+      "updatedAt": "2026-03-28T17:40:43.821Z"
+    }
+  ],
+  "admins": [
+    {
+      "id": "cmnc7uvpf0000lj3uzspefej1",
+      "email": "admin@languecentre.ma",
+      "name": "Super Admin",
+      "role": "SUPER_ADMIN"
+    },
+    {
+      "id": "cmnc7uvrj0001lj3u4aptezbb",
+      "email": "secretaire@languecentre.ma",
+      "name": "Marie Dupont",
+      "role": "SECRETARY"
+    },
+    {
+      "id": "cmnc7uvtl0002lj3u5sadutuu",
+      "email": "formateur@languecentre.ma",
+      "name": "Ahmed Benali",
+      "role": "TEACHER"
+    }
+  ]
+}

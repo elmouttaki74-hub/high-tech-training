@@ -1,0 +1,72 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { db } from '@/lib/db'
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params
+    const student = await db.student.findUnique({
+      where: { id },
+      include: {
+        enrollments: {
+          include: {
+            group: {
+              include: { course: true }
+            }
+          }
+        },
+        payments: true,
+        certificates: true
+      }
+    })
+    if (!student) {
+      return NextResponse.json({ error: 'Étudiant non trouvé' }, { status: 404 })
+    }
+    return NextResponse.json(student)
+  } catch (error) {
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+  }
+}
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params
+    const data = await request.json()
+    const student = await db.student.update({
+      where: { id },
+      data: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone || null,
+        dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth) : null,
+        address: data.address || null,
+        status: data.status
+      }
+    })
+    return NextResponse.json(student)
+  } catch (error: any) {
+    if (error.code === 'P2002') {
+      return NextResponse.json({ error: 'Cet email existe déjà' }, { status: 400 })
+    }
+    return NextResponse.json({ error: 'Erreur lors de la modification' }, { status: 500 })
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params
+    await db.student.delete({ where: { id } })
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    return NextResponse.json({ error: 'Erreur lors de la suppression' }, { status: 500 })
+  }
+}

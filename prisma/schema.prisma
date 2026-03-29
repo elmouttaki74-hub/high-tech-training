@@ -1,0 +1,320 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Niveaux de compétence (Débutant, Intermédiaire, Avancé, etc.)
+model Level {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  order       Int      @default(0)
+  groups      Group[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("levels")
+}
+
+// Langues proposées (Anglais, Français, Espagnol, etc.)
+model Language {
+  id        String   @id @default(cuid())
+  name      String
+  code      String   @unique
+  icon      String?
+  courses   Course[]
+  groups    Group[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("languages")
+}
+
+// Formateurs/Enseignants
+model Teacher {
+  id             String        @id @default(cuid())
+  firstName      String
+  lastName       String
+  email          String        @unique
+  phone          String?
+  address        String?
+  specialization String?
+  hireDate       DateTime      @default(now())
+  status         TeacherStatus @default(ACTIVE)
+  photo          String?
+  groups         Group[]
+  schedules      Schedule[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@map("teachers")
+}
+
+enum TeacherStatus {
+  ACTIVE
+  ON_LEAVE
+  INACTIVE
+}
+
+// Étudiants/Apprenants
+model Student {
+  id           String          @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String          @unique
+  phone        String?
+  dateOfBirth  DateTime?
+  address      String?
+  photo        String?
+  status       StudentStatus   @default(ACTIVE)
+  enrollments  Enrollment[]
+  payments     Payment[]
+  attendance   Attendance[]
+  certificates Certificate[]
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  @@map("students")
+}
+
+enum StudentStatus {
+  ACTIVE
+  ON_LEAVE
+  GRADUATED
+  INACTIVE
+}
+
+// Cours/Formations
+model Course {
+  id          String   @id @default(cuid())
+  name        String
+  code        String   @unique
+  description String?
+  duration    Int
+  price       Float
+  languageId  String
+  language    Language @relation(fields: [languageId], references: [id])
+  groups      Group[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("courses")
+}
+
+// Salles de classe
+model Room {
+  id        String     @id @default(cuid())
+  name      String
+  capacity  Int
+  building  String?
+  floor     String?
+  schedules Schedule[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("rooms")
+}
+
+// Groupes/Classes
+model Group {
+  id         String      @id @default(cuid())
+  name       String
+  code       String      @unique
+  courseId   String
+  course     Course      @relation(fields: [courseId], references: [id])
+  teacherId  String?
+  teacher    Teacher?    @relation(fields: [teacherId], references: [id])
+  levelId    String?
+  level      Level?      @relation(fields: [levelId], references: [id])
+  languageId String?
+  language   Language?   @relation(fields: [languageId], references: [id])
+  startDate  DateTime
+  endDate    DateTime
+  maxStudents Int        @default(20)
+  status     GroupStatus @default(PLANNED)
+  schedule   String?
+  room       String?
+  enrollments Enrollment[]
+  schedules  Schedule[]
+  attendance Attendance[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@map("groups")
+}
+
+enum GroupStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+// Inscriptions
+model Enrollment {
+  id         String           @id @default(cuid())
+  studentId  String
+  student    Student          @relation(fields: [studentId], references: [id])
+  groupId    String
+  group      Group            @relation(fields: [groupId], references: [id])
+  enrollDate DateTime         @default(now())
+  status     EnrollmentStatus @default(ACTIVE)
+  payments   Payment[]
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  @@unique([studentId, groupId])
+  @@map("enrollments")
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+  SUSPENDED
+}
+
+// Paiements
+model Payment {
+  id            String        @id @default(cuid())
+  studentId     String
+  student       Student       @relation(fields: [studentId], references: [id])
+  enrollmentId  String?
+  enrollment    Enrollment?   @relation(fields: [enrollmentId], references: [id])
+  amount        Float
+  paymentType   PaymentType
+  paymentMethod PaymentMethod
+  reference     String?
+  status        PaymentStatus @default(PENDING)
+  dueDate       DateTime?
+  paidDate      DateTime?
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@map("payments")
+}
+
+enum PaymentType {
+  REGISTRATION
+  TUITION
+  MATERIAL
+  EXAM
+  CERTIFICATE
+  OTHER
+}
+
+enum PaymentMethod {
+  CASH
+  CHECK
+  CARD
+  TRANSFER
+  ONLINE
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  PARTIAL
+  CANCELLED
+  REFUNDED
+}
+
+// Planning/Séances
+model Schedule {
+  id        String         @id @default(cuid())
+  groupId   String
+  group     Group          @relation(fields: [groupId], references: [id])
+  teacherId String?
+  teacher   Teacher?       @relation(fields: [teacherId], references: [id])
+  roomId    String?
+  room      Room?          @relation(fields: [roomId], references: [id])
+  date      DateTime
+  startTime String
+  endTime   String
+  topic     String?
+  notes     String?
+  status    ScheduleStatus @default(SCHEDULED)
+  attendance Attendance[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@map("schedules")
+}
+
+enum ScheduleStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  RESCHEDULED
+}
+
+// Présences
+model Attendance {
+  id         String           @id @default(cuid())
+  studentId  String
+  student    Student          @relation(fields: [studentId], references: [id])
+  groupId    String
+  group      Group            @relation(fields: [groupId], references: [id])
+  scheduleId String
+  schedule   Schedule         @relation(fields: [scheduleId], references: [id])
+  status     AttendanceStatus
+  notes      String?
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  @@unique([studentId, scheduleId])
+  @@map("attendance")
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
+// Certificats
+model Certificate {
+  id        String   @id @default(cuid())
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+  type      String
+  courseId  String?
+  issueDate DateTime @default(now())
+  validUntil DateTime?
+  grade     String?
+  reference String   @unique
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("certificates")
+}
+
+// Administrateurs/Utilisateurs du système
+model Admin {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String
+  role      AdminRole @default(ADMIN)
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("admins")
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+  SECRETARY
+  TEACHER
+}
